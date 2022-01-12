@@ -1,0 +1,41 @@
+.wrapper {
+  position: relative;
+}
+
+.overlay.spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner::before {
+  content: "";
+
+  width: 3rem;
+  height: 3rem;
+
+  border: solid 5px var(--off-grey);
+  border-bottom-color: var(--off-grey-darker);
+  border-radius: 50%;
+
+  position: absolute;
+  top: 10%;
+  left: 10%;
+
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}

@@ -32,7 +32,11 @@ const Leaderboard = ({ level }) => {
   return (
     <div className={classes.leaderboard}>
       <h1>Leaderboard</h1>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && (
+        <div className={`center ${classes.spinner}`}>
+          <LoadingSpinner />
+        </div>
+      )}
 
       {!isLoading && topTen.length > 0 && (
         <table>
