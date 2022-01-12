@@ -1,0 +1,23 @@
+.test {
+  min-height: 100vh;
+  min-width: 1850px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+}
+
+.img-container {
+  min-width: 1800px;
+  width: 1800px;
+
+  position: relative;
+}
+
+.img-container img {
+  width: 100%;
+  object-fit: contain;
+  border: 1px solid black;
+}
