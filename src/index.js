@@ -7,8 +7,10 @@ import App from "./App";
 import "./index.css";
 
 ReactDOM.render(
-  <FirebaseContextProvider>
-    <App />
-  </FirebaseContextProvider>,
+  <React.StrictMode>
+    <FirebaseContextProvider>
+      <App />
+    </FirebaseContextProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );

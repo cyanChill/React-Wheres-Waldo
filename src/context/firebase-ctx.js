@@ -2,7 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 /* Firebase Stuff */
@@ -27,6 +27,7 @@ const FirebaseContext = React.createContext({
 
 const FirebaseContextProvider = (props) => {
   const [dbScoreRef, setDBScoreRef] = useState(null);
+  const [cachedScores, setCachedScores] = useState([]);
 
   // This should only trigger when we go onto the game page and click "start"
   const newGame = useCallback((lvl) => {
@@ -43,6 +44,10 @@ const FirebaseContextProvider = (props) => {
     /* 
       We'll go into the database and fetch the document with the id of "lvl" and fetch
       the values for "charId" along with the _imgSize to compare for the scaling math
+
+      TODO: Also prevent users from inputting a pre-existing dbScoreRef id to try and override previous scores
+
+      TODO: Or go for the pixel approach
     */
     const levelRef = firestore.collection("wheres-waldo-locations").doc(lvl);
     const levelData = await new Promise((resolve, reject) => {
@@ -85,29 +90,15 @@ const FirebaseContextProvider = (props) => {
     return { correct: true };
   }, []);
 
-  const getScoreboard = useCallback(async (lvl) => {
-    const docRef = firestore.collection("wheres-waldo-leaderboard");
-    const query = docRef
-      .where("levelId", "==", lvl)
-      .orderBy("runTime")
-      .limit(10);
-
-    const queryData = await new Promise((resolve, reject) => {
-      query
-        .get()
-        .then((snapshot) => {
-          const docData = [];
-          snapshot.forEach((doc) => docData.push(doc.data()));
-          resolve(docData);
-        })
-        .catch((err) => {
-          console.log(err);
-          resolve(null);
-        });
-    });
-
-    return queryData;
-  }, []);
+  const getTopTenScoreboard = useCallback(
+    (lvl) => {
+      return cachedScores
+        .filter((score) => score.levelId === lvl)
+        .sort((a, b) => a.runTime - b.runTime)
+        .splice(0, 10);
+    },
+    [cachedScores]
+  );
 
   const removeIncompleteDoc = useCallback(async () => {
     const docRef = firestore
@@ -131,11 +122,35 @@ const FirebaseContextProvider = (props) => {
     });
   }, [dbScoreRef]);
 
+  useEffect(() => {
+    const fetchScores = async () => {
+      const docRef = firestore.collection("wheres-waldo-leaderboard");
+
+      const queryData = await new Promise((resolve, reject) => {
+        docRef
+          .get()
+          .then((snapshot) => {
+            const docData = [];
+            snapshot.forEach((doc) => docData.push(doc.data()));
+            resolve(docData);
+          })
+          .catch((err) => {
+            console.log(err);
+            resolve([]);
+          });
+      });
+
+      setCachedScores(queryData);
+    };
+
+    fetchScores();
+  }, []);
+
   const providerValues = {
     auth,
     firestore,
     newGame,
-    getScoreboard,
+    getTopTenScoreboard,
     validateCharacterLevel,
     removeIncompleteDoc,
   };

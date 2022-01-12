@@ -26,7 +26,10 @@
   .wrapper {
     flex-direction: row;
     justify-content: space-around;
-    align-items: flex-start;
+  }
+
+  .leaderboard-container {
+    align-self: flex-start;
   }
 
   .lvlSlct-container,

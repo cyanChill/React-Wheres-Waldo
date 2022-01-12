@@ -13,21 +13,21 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import classes from "./Leaderboard.module.css";
 
 const Leaderboard = ({ level }) => {
-  const { getScoreboard } = useContext(FirebaseContext);
+  const { getTopTenScoreboard } = useContext(FirebaseContext);
   const [topTen, setTopTen] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const populateData = async () => {
       setIsLoading(true);
-      const boardData = await getScoreboard(`level-${level}`);
+      const boardData = await getTopTenScoreboard(level);
       setTopTen(boardData);
 
       setIsLoading(false);
     };
 
     populateData();
-  }, [level, getScoreboard]);
+  }, [level, getTopTenScoreboard]);
 
   return (
     <div className={classes.leaderboard}>
