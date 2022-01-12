@@ -1,0 +1,17 @@
+.lvlSelect {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+}
+
+.lvlSelect p {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 700;
+}
