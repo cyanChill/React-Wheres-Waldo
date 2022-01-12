@@ -8,7 +8,6 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import Button from "../FormElements/Button";
 
 import classes from "./LevelSelector.module.css";
-import banners from "../../assets/banner-imports";
 
 const LevelSelector = ({ level, onNext, onPrev, image, haveNav }) => {
   const navigate = useNavigate();
@@ -28,7 +27,6 @@ const LevelSelector = ({ level, onNext, onPrev, image, haveNav }) => {
           </div>
         )}
       </div>
-      <p>Level {level}</p>
       <Button onClick={() => navigate(`/level-${level}`)}>Play Level</Button>
     </div>
   );
