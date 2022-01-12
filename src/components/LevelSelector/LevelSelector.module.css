@@ -1,4 +1,6 @@
 .lvlSelect {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,7 +13,41 @@
   align-items: center;
 }
 
+.banner img {
+  max-width: calc(100% - 56px);
+  max-height: 100%;
+  height: auto;
+
+  padding: 0.5rem;
+
+  object-fit: contain;
+}
+
 .lvlSelect p {
-  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
   font-weight: 700;
+}
+
+.prev,
+.next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem 0.25rem;
+
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+.prev:hover,
+.next:hover {
+  cursor: pointer;
+}
+
+@media (min-width: 875px) {
+  .banner img {
+    width: max-content;
+  }
 }

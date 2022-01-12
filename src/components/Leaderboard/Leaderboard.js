@@ -34,7 +34,7 @@ const Leaderboard = ({ level }) => {
       <h1>Leaderboard</h1>
       {isLoading && <LoadingSpinner />}
 
-      {!isLoading && topTen && (
+      {!isLoading && topTen.length > 0 && (
         <table>
           <tbody>
             <tr>
@@ -51,7 +51,9 @@ const Leaderboard = ({ level }) => {
         </table>
       )}
 
-      {!isLoading && topTen && <p className={classes.noScore}>There's no times for this level.</p>}
+      {!isLoading && topTen.length === 0 && (
+        <p className={classes.noScore}>There's no times for this level.</p>
+      )}
     </div>
   );
 };

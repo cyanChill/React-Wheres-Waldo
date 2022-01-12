@@ -8,21 +8,31 @@
 }
 
 .wrapper {
-  width: 85vw;
+  width: 90vw;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
 .lvlSlct-container,
 .leaderboard-container {
-  min-width: clamp(13rem, 40vw, 40vw);
+  width: 100%;
 }
 
 @media (min-width: 875px) {
   .wrapper {
     flex-direction: row;
     justify-content: space-around;
+    align-items: flex-start;
+  }
+
+  .lvlSlct-container,
+  .leaderboard-container {
+    min-width: 13rem;
+    max-width: 40vw;
+    min-width: clamp(13rem, 40vw, 40vw);
   }
 }
