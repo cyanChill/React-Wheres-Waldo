@@ -1,0 +1,28 @@
+.container {
+  min-height: 100vh;
+  min-width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 85vw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lvlSlct-container,
+.leaderboard-container {
+  min-width: clamp(13rem, 40vw, 40vw);
+}
+
+@media (min-width: 875px) {
+  .wrapper {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
