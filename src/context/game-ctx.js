@@ -49,6 +49,8 @@ const GameContextProvider = (props) => {
       levelId: lvlNum,
       runTime: runTime,
     });
+
+    await fetchScores();
   }, []);
 
   /* Function to validate a guess at where a character is on the image */
@@ -88,30 +90,31 @@ const GameContextProvider = (props) => {
     [getLvlInfo]
   );
 
+  /* Function to cache the leaderboards */
+  const fetchScores = useCallback(async () => {
+    const docRef = firestore.collection("wheres-waldo-leaderboard");
+
+    const queryData = await new Promise((resolve, reject) => {
+      docRef
+        .get()
+        .then((snapshot) => {
+          const docData = [];
+          snapshot.forEach((doc) => docData.push(doc.data()));
+          resolve(docData);
+        })
+        .catch((err) => {
+          console.log(err);
+          resolve([]);
+        });
+    });
+
+    setCachedScores(queryData);
+  }, []);
+
   /* Used to cached the leaderboards for each level */
   useEffect(() => {
-    const fetchScores = async () => {
-      const docRef = firestore.collection("wheres-waldo-leaderboard");
-
-      const queryData = await new Promise((resolve, reject) => {
-        docRef
-          .get()
-          .then((snapshot) => {
-            const docData = [];
-            snapshot.forEach((doc) => docData.push(doc.data()));
-            resolve(docData);
-          })
-          .catch((err) => {
-            console.log(err);
-            resolve([]);
-          });
-      });
-
-      setCachedScores(queryData);
-    };
-
     fetchScores();
-  }, []);
+  }, [fetchScores]);
 
   const ctxValues = {
     getTopTenScoreboard,
