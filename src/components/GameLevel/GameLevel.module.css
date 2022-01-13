@@ -17,10 +17,33 @@
   object-fit: contain;
 }
 
-.loadingContainer {
+.loadingContainer,
+.errorContainer {
   min-height: 100vh;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.errorContainer {
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 2rem;
+}
+
+.action-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.win-msg {
+  font-size: 1.15rem;
+}
+
+.bold {
+  font-weight: 600;
 }

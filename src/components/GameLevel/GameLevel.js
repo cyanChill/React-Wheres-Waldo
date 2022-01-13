@@ -2,11 +2,14 @@ import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 
 import { GameContext } from "../../context/game-ctx";
+import customFilter from "../../utility/badwordFilter";
 
 import GameNavbar from "./GameNavbar";
 import Target from "../Target/Target";
 import Button from "../FormElements/Button";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import Modal from "../Modal/Modal";
+import FormInput from "../FormElements/FormInput";
 
 import classes from "./GameLevel.module.css";
 import { numBanners as numLevels } from "../../assets/banner-imports";
@@ -34,6 +37,10 @@ const GameLevel = (props) => {
   const [characters, setCharacters] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [inputError, setInputError] = useState(false);
+  const usernameRef = useRef();
 
   const [validScreenSize, setValidScreenSize] = useState(
     window.innerWidth >= 1200
@@ -86,6 +93,21 @@ const GameLevel = (props) => {
     setTargetDown(false);
   };
 
+  const handleSubmission = async () => {
+    const username = usernameRef.current.value.trim();
+
+    if (!username) {
+      setInputError(true);
+      return;
+    }
+
+    const levelNum = +levelId.split("level-")[1];
+    const runTime = endTime - startTime;
+    await submitResult(levelNum, runTime, customFilter.clean(username));
+
+    navigate("/");
+  };
+
   useEffect(() => {
     window.addEventListener("resize", isValidScreenSize);
 
@@ -103,7 +125,8 @@ const GameLevel = (props) => {
       if (
         regex.test(levelId) && // Check correct path formatting
         +levelId.split("level-")[1] > 0 &&
-        +levelId.split("level-")[1] <= numLevels
+        +levelId.split("level-")[1] <= numLevels &&
+        !startTime
       ) {
         const lvlChars = await getLvlChars(levelId);
         setCharacters(
@@ -128,10 +151,9 @@ const GameLevel = (props) => {
   useEffect(() => {
     if (characters.length > 0) {
       const foundAll = characters.every((char) => char.found);
-      console.log(`Finding evreything status: ${foundAll}`);
       if (foundAll) {
         setEndTime(Date.now());
-        /* Trigger modal to be displayed */
+        setShowSubmit(true);
       }
     }
   }, [characters]);
@@ -150,7 +172,7 @@ const GameLevel = (props) => {
 
   if (!validScreenSize) {
     return (
-      <div>
+      <div className={classes.errorContainer}>
         <p>
           Sorry, but your current screen size is unoptimal for the game
           experience. This game requires a window size of atleast &ge; 1200px.
@@ -161,27 +183,60 @@ const GameLevel = (props) => {
   }
 
   return (
-    <div className={classes["game-container"]}>
-      {/* Navbar component displaying the icons of the characters needed to be found */}
-      <GameNavbar characters={characters} />
+    <>
+      {showSubmit && (
+        <Modal
+          title="Submit your score:"
+          actions={
+            <div className={classes["action-container"]}>
+              <Button inverse onClick={() => navigate("/")}>
+                Return Home
+              </Button>
+              <Button onClick={handleSubmission}>Submit</Button>
+            </div>
+          }
+        >
+          <p className={classes["win-msg"]}>
+            Congratulations, you found all the characters in{" "}
+            <span className={classes.bold}>
+              {(endTime - startTime) / 1000} seconds
+            </span>
+            . You can submit a user name to save your record or return to the
+            homepage without submitting your record.
+          </p>
+          <br />
+          <FormInput
+            label="Username:"
+            type="text"
+            vertical
+            ref={usernameRef}
+            error={inputError}
+            errorMsg="Please enter a non-empty value"
+          />
+        </Modal>
+      )}
 
-      <div className={classes["img-container"]}>
-        <img
-          src={level}
-          alt="Testing"
-          onClick={targetDropHandler}
-          draggable="false"
-          ref={boardRef}
-          className={classes.gameboard}
-        />
-        <Target
-          show={targetDown}
-          center={targetCenter}
-          characters={characters}
-          checkGuess={handleGuessCheck}
-        />
+      <div className={classes["game-container"]}>
+        <GameNavbar characters={characters} />
+
+        <div className={classes["img-container"]}>
+          <img
+            src={level}
+            alt="Testing"
+            onClick={targetDropHandler}
+            draggable="false"
+            ref={boardRef}
+            className={classes.gameboard}
+          />
+          <Target
+            show={targetDown}
+            center={targetCenter}
+            characters={characters}
+            checkGuess={handleGuessCheck}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
