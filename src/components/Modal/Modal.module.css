@@ -1,0 +1,32 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 11;
+}
+
+.card {
+  overflow: hidden;
+  width: 90vw;
+  padding: 1rem;
+}
+
+.card h2,
+.card > div {
+  padding: 1rem 1.5rem 0.75rem 1.5rem;
+}
+
+@media (min-width: 875px) {
+  .card {
+    min-width: 30rem;
+    width: 50vw;
+  }
+}

@@ -1,7 +1,4 @@
 .card {
-  width: var(--card-dim);
-  height: var(--card-dim);
-
   border-radius: 0.5rem;
   background-color: var(--card-bkg);
 }
@@ -10,8 +7,4 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-.card:hover {
-  background-color: var(--card-active-bkg);
 }
