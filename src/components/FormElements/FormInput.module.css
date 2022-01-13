@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.row {
+  flex-direction: row;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+
+  padding: 0.5rem 1rem;
+
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  background-color: transparent;
+
+  font-family: var(--font-family);
+}
+
+.block {
+  display: block;
+}
+
+.label {
+  font-size: 1.15rem;
+}
+
+.errorMsg {
+  color: red;
+  font-style: italic;
+}
