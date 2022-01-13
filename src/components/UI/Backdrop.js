@@ -19,7 +19,7 @@ const Backdrop = (props) => {
       className={classes.backdrop}
       styles={backdropStyles}
       onClick={onClick}
-    ></div>,
+    />,
     document.getElementById("backdrop-portal")
   );
 };
