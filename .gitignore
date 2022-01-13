@@ -23,6 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # images
-/src/assets/images/level_banner_template.png
-/src/assets/images/level_1_banner_template.pdn
+/src/assets/images/banner_outline_template.png
+/src/assets/images/banner_template.pdn
 /src/assets/images/banner_color_picker.png
