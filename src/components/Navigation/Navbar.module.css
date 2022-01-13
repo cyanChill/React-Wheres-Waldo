@@ -1,0 +1,4 @@
+.navbar {
+  height: var(--nav-height);
+  width: 100%;
+}
