@@ -52,45 +52,41 @@ const GameContextProvider = (props) => {
   }, []);
 
   /* Function to validate a guess at where a character is on the image */
-  const validateCharacterLevel = useCallback(async (lvl, charId, estLoc) => {
-    /* 
-      We'll go into the database and fetch the document with the id of "lvl" and fetch
-      the values for "charId" along with the _imgSize to compare for the scaling math
+  const validateCharacterLevel = useCallback(
+    async (lvl, charId, estLoc) => {
+      const levelData = await getLvlInfo(lvl);
 
-      TODO: Or go for the pixel approach
-    */
+      const { width: savedWidth, height: savedHeight } = levelData["_imgSize"];
+      const charRef = levelData[charId];
+      let { topLeftCorner: cTLC, bottomRightCorner: cBRC } = charRef;
 
-    const levelData = await getLvlInfo(lvl);
+      const {
+        topLeftCorner: eTLC,
+        bottomRightCorner: eBRC,
+        currImgWidth,
+        currImgHeight,
+      } = estLoc;
 
-    const imgSizeRef = levelData["_imgSize"];
-    const charRef = levelData[charId];
-    let { topLeftCorner: cTLC, bottomRightCorner: cBRC } = charRef;
+      /* Scaling Corrections */
+      const xScaleRatio = currImgWidth / savedWidth;
+      const yScaleRatio = currImgHeight / savedHeight;
+      cTLC = { x: (cTLC.x *= xScaleRatio), y: (cTLC.y *= yScaleRatio) };
+      cBRC = { x: (cBRC.x *= xScaleRatio), y: (cBRC.y *= yScaleRatio) };
 
-    const {
-      topLeftCorner: eTLC,
-      bottomRightCorner: eBRC,
-      currImgWidth,
-    } = estLoc;
+      /* Seeing if the estimated location is within the acceptable range */
+      if (
+        cTLC.x > eBRC.x || // Est. loc. box is left of actual box
+        cBRC.x < eTLC.x || // Est. loc. box is right of actual box
+        cBRC.y < eTLC.y || // Est. loc. box is above actual box
+        cTLC.y > eBRC.y // Est. loc. box is below actual box
+      ) {
+        return false;
+      }
 
-    /* Scaling Corrections */
-    // What we need to scale here is cTLC & cBRC
-    const scaleRatio = currImgWidth / imgSizeRef;
-    console.log("...Scaling corrections");
-
-    /* Seeing if the estimated location is within the acceptable range */
-    if (
-      cTLC.x > eBRC.x || // Est. loc. box is left of actual box
-      cBRC.x < eTLC.x || // Est. loc. box is right of actual box
-      cBRC.y < eTLC.y || // Est. loc. box is above actual box
-      cTLC.y > eBRC.y // Est. loc. box is below actual box
-    ) {
-      console.log("Character not within box");
-      return false;
-    }
-
-    console.log("Character within box");
-    return true;
-  }, []);
+      return true;
+    },
+    [getLvlInfo]
+  );
 
   /* Used to cached the leaderboards for each level */
   useEffect(() => {
