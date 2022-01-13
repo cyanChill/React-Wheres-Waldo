@@ -20,7 +20,7 @@ const LevelSelector = ({ level, onNext, onPrev, image, haveNav }) => {
             <BsChevronLeft />
           </div>
         )}
-        <img src={image} alt={`Level ${level} Banner`} />
+        <img src={image} alt={`Level ${level} Banner`} draggable="false" />
         {haveNav && (
           <div className={classes.next} onClick={onNext}>
             <BsChevronRight />

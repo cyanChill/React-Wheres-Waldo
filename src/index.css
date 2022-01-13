@@ -7,6 +7,10 @@
   --off-grey-darker: #7f7f90;
   --off-black: #222222;
   --off-black-light: #424242;
+
+  --card-bkg: #eeeef0;
+
+  --font-family: "Nunito Sans", sans-serif;
 }
 
 *,
@@ -17,7 +21,7 @@
 }
 
 body {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: var(--font-family);
   background-color: #fefefe;
 
   overflow-x: hidden;

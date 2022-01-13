@@ -21,7 +21,7 @@ const Target = (props) => {
             onClick={() => checkGuess(char.id)}
             className={classes["dropdown-btn"]}
           >
-            <img src={char.image} alt={char.id} />
+            <img src={char.image} alt={char.id} draggable="false" />
             <span>{char.id}</span>
           </div>
         ))}
