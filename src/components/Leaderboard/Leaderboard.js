@@ -6,14 +6,14 @@
 */
 import { useContext, useEffect, useState } from "react";
 
-import { FirebaseContext } from "../../context/firebase-ctx";
+import { GameContext } from "../../context/game-ctx";
 
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 import classes from "./Leaderboard.module.css";
 
 const Leaderboard = ({ level }) => {
-  const { getTopTenScoreboard } = useContext(FirebaseContext);
+  const { getTopTenScoreboard } = useContext(GameContext);
   const [topTen, setTopTen] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
