@@ -1,0 +1,51 @@
+.targetContainer {
+  min-width: 10rem;
+  width: max-content;
+
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  border: 0;
+  border-radius: 1rem;
+  background-color: var(--off-black);
+
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.dropdown-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.5rem 1rem;
+
+  text-transform: capitalize;
+  border: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.dropdown-btn img {
+  max-width: 2rem;
+  max-height: 2rem;
+  border: 0;
+  outline: none;
+}
+
+.dropdown-btn span {
+  font-size: 0.9rem;
+}
+
+.dropdown-btn:hover {
+  cursor: pointer;
+  background-color: var(--off-black-light);
+}

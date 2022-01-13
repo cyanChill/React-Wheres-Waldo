@@ -1,23 +1,26 @@
-.test {
+.game-container {
   min-height: 100vh;
-  min-width: 1850px;
+  max-width: 100vw;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 1rem;
+  flex-direction: column;
 }
 
 .img-container {
-  min-width: 1800px;
-  width: 1800px;
+  width: 100%;
 
   position: relative;
 }
 
-.img-container img {
+.gameboard {
   width: 100%;
   object-fit: contain;
-  border: 1px solid black;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

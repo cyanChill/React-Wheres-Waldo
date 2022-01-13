@@ -1,0 +1,22 @@
+.gamebar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  padding: 0.5rem;
+  background-color: #e8d6f0;
+}
+
+.gameChars {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gameChars img {
+  height: 2rem;
+}
+
+.found {
+  filter: grayscale(100%);
+}
