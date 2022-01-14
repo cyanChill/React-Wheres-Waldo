@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import firestore, { fetchDocData } from "../firebase";
@@ -37,21 +37,6 @@ const GameContextProvider = (props) => {
     },
     [getLvlInfo]
   );
-
-  /* Function to submit a score to the database */
-  const submitResult = useCallback(async (lvlNum, runTime, name) => {
-    const newDocId = uuidv4();
-
-    // Add document to the database
-    const lbRef = firestore.collection("wheres-waldo-leaderboard");
-    lbRef.doc(newDocId).set({
-      name: name,
-      levelId: lvlNum,
-      runTime: runTime,
-    });
-
-    await fetchScores();
-  }, []);
 
   /* Function to validate a guess at where a character is on the image */
   const validateCharacterLevel = useCallback(
@@ -110,6 +95,24 @@ const GameContextProvider = (props) => {
 
     setCachedScores(queryData);
   }, []);
+
+  /* Function to submit a score to the database */
+  const submitResult = useCallback(
+    async (lvlNum, runTime, name) => {
+      const newDocId = uuidv4();
+
+      // Add document to the database
+      const lbRef = firestore.collection("wheres-waldo-leaderboard");
+      lbRef.doc(newDocId).set({
+        name: name,
+        levelId: lvlNum,
+        runTime: runTime,
+      });
+
+      await fetchScores();
+    },
+    [fetchScores]
+  );
 
   /* Used to cached the leaderboards for each level */
   useEffect(() => {
