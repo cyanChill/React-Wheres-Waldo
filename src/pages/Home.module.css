@@ -17,6 +17,7 @@
   gap: 1rem;
 
   padding-top: calc(2rem + var(--nav-height));
+  padding-bottom: 2rem;
 }
 
 .lvlSlct-container,
