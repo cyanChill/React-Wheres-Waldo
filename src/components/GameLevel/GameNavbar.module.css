@@ -15,6 +15,7 @@
 
 .gameChars img {
   height: 2rem;
+  user-select: none;
 }
 
 .found {
