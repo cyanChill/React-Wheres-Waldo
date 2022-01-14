@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef, useCallback } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 
 import { GameContext } from "../../context/game-ctx";
@@ -46,10 +46,6 @@ const GameLevel = (props) => {
     window.innerWidth >= 1200
   );
 
-  const isValidScreenSize = useCallback(() => {
-    return setValidScreenSize(window.innerWidth >= 1200);
-  }, []);
-
   const targetDropHandler = (e) => {
     if (!targetDown) {
       const imgBoundingRect = e.target.getBoundingClientRect();
@@ -65,9 +61,11 @@ const GameLevel = (props) => {
   };
 
   const handleGuessCheck = async (charId) => {
+    const boardRefRect = boardRef.current.getBoundingClientRect();
+
     const result = await validateCharacterLevel(levelId, charId, {
-      currImgWidth: boardRef.current.getBoundingClientRect().width,
-      currImgHeight: boardRef.current.getBoundingClientRect().height,
+      currImgWidth: boardRefRect.width,
+      currImgHeight: boardRefRect.height,
       topLeftCorner: {
         x: targetCenter.x - 2,
         y: targetCenter.y - 2,
@@ -109,12 +107,16 @@ const GameLevel = (props) => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", isValidScreenSize);
+    const resizeObserver = new ResizeObserver((entries) => {
+      setValidScreenSize(entries[0].target.clientWidth >= 1200);
+    });
+
+    resizeObserver.observe(document.body);
 
     return () => {
-      window.removeEventListener("resize", isValidScreenSize);
+      resizeObserver.disconnect();
     };
-  }, [isValidScreenSize]);
+  }, []);
 
   useEffect(() => {
     const init = async () => {
