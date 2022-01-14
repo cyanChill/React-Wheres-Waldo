@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 0.5rem;
+  background-color: #e8d6f0;
+
+  font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.twitter {
+  color: #005eff;
+}
+
+.twitter:hover {
+  color: #004fd6;
+}

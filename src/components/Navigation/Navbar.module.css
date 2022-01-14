@@ -1,4 +1,6 @@
 .navbar {
-  height: var(--nav-height);
+  min-height: var(--nav-height);
   width: 100%;
+
+  padding: 0.5rem;
 }

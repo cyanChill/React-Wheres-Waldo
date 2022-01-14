@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import LevelSelector from "../components/LevelSelector/LevelSelector";
 import Leaderboard from "../components/Leaderboard/Leaderboard";
+import HomeNav from "../components/Navigation/HomeNav";
 
 import classes from "./Home.module.css";
 import getBanner, { numBanners } from "../assets/banner-imports";
@@ -18,22 +19,25 @@ const Home = () => {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.wrapper}>
-        <section className={classes["lvlSlct-container"]}>
-          <LevelSelector
-            onNext={handleNext}
-            onPrev={handlePrev}
-            level={currLevel}
-            image={getBanner(currLevel)}
-            haveNav={numBanners > 1}
-          />
-        </section>
-        <section className={classes["leaderboard-container"]}>
-          <Leaderboard level={currLevel} />
-        </section>
+    <>
+      <HomeNav className={classes.nav} />
+      <div className={classes.container}>
+        <div className={classes.wrapper}>
+          <section className={classes["lvlSlct-container"]}>
+            <LevelSelector
+              onNext={handleNext}
+              onPrev={handlePrev}
+              level={currLevel}
+              image={getBanner(currLevel)}
+              haveNav={numBanners > 1}
+            />
+          </section>
+          <section className={classes["leaderboard-container"]}>
+            <Leaderboard level={currLevel} />
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
